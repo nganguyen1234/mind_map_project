@@ -1,0 +1,35 @@
+<html>
+   <head>
+      <title> Test adobe api</title>
+      <meta charset="utf-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+      <script src="https://acrobatservices.adobe.com/view-sdk/viewer.js"></script>
+
+   </head>
+   <body>
+      <div id="adobe-dc-view"></div>
+      <input type="file" accept="application/pdf" id="file-picker">
+      <script>
+        function listenForFileUpload(){
+         var fileToRead = document.getElementById("file-picker");
+         fileToRead.addEventListener("change", function(event){
+            var files = fileToRead.files;
+            if (files.length > 0){
+               var reader = new FileReader();
+               reader.onloadend = function(e){
+                  var filePromise = Promise.resolve(e.target.result);
+                  var adobeDCView = new AdobeDC.View({clientId: "ff68d10fae5c4f31b024a66df0c62857"})
+                  adobeDCView.previewFile({
+                     content:{promise: filePromise},
+                     metaData: {fileName: files[0].name}
+                  })
+               };
+               reader.readAsArrayBuffer(files[0]);
+            }
+
+         },false)
+        }
+ listenForFileUpload()
+      </script>
+   </body>
+</html>
