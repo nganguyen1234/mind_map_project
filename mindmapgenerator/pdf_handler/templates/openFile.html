@@ -8,8 +8,38 @@
    </head>
    <body>
       <div id="adobe-dc-view"></div>
-      <input type="file" accept="application/pdf" id="file-picker">
+      <form action="/upload-file/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate>
+         <fieldset>
+      <div class="form-group has-error">
+  
+         <label class="col-sm-2 control-label ">
+           File
+         </label>
+       <div class="col-sm-10">
+         <input name="file" id="file-picker"  type="file"  value="" >
+         <div class="form-actions">
+            <button class="btn btn-primary js-tooltip">POST</button>
+          </div>
+        </fieldset>
+      </form>
       <script>
+         window.drf = {
+           csrfHeaderName: "X-CSRFTOKEN",
+           csrfToken: "sdlPVmZqBSQiKaof2ZaQbvdQBScHktRK4FJNXbQw1xUAx0sIXV8SquvBKzPNhlAq"
+         };
+       </script>
+       <script src="/static/rest_framework/js/jquery-3.5.1.min.js"></script>
+       <script src="/static/rest_framework/js/ajax-form.js"></script>
+       <script src="/static/rest_framework/js/csrf.js"></script>
+       <script src="/static/rest_framework/js/bootstrap.min.js"></script>
+       <script src="/static/rest_framework/js/prettify-min.js"></script>
+       <script src="/static/rest_framework/js/default.js"></script>
+       <script>
+         $(document).ready(function() {
+           $('form').ajaxForm();
+         });
+       </script> 
+<script>
         function listenForFileUpload(){
          var fileToRead = document.getElementById("file-picker");
          fileToRead.addEventListener("change", function(event){

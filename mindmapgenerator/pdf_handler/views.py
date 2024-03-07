@@ -4,16 +4,47 @@ from django.template import loader
 import fitz
 import pandas as pd
 import os
+from rest_framework.response import Response
+from rest_framework.request import Request
+from rest_framework.decorators import api_view
+from rest_framework.parsers import FileUploadParser
+from rest_framework.views import APIView
 # import pdb
 # from .templates
 # Create your views here.
-def openHomePage(request):
+
+def submitFile(request):
+    template = loader.get_template("submitFile.html")
+    return HttpResponse(template.render({},request))
+def getFileTest():
+    i = 0
+
+
+class FileUploadView(APIView):
+    parser_classes = [FileUploadParser]
+    def put(self,request,format=None):
+        if(request.method == 'POST'):
+            file_obj = request.data['data']
+            extractHighlightedInfo(file_obj)
+        return Response(status=204)
+        # template = loader.get_template("highlight.html")
+        # return HttpResponse(template.render({},request))
+    def post(self,request,format=None):
+        file = request.data['file']
+        filename = file.name
+        extractHighlightedInfo(file)
+        # return Response({'received data': request.data})
+        return Response({'received data':{'filename':filename}})
+
+def openFile(request):
     template = loader.get_template("openFile.html")
     return HttpResponse( template.render({}, request))
 
-def extractHighlightedInfo(request):
-    document = os.path.join('Thi_Thuy_Nga_Nguyen_resume (1).pdf')
-    doc = fitz.open(document)
+
+def extractHighlightedInfo(file):
+    # document = os.path.join('Thi_Thuy_Nga_Nguyen_resume (1).pdf')
+    # doc = fitz.open(document)
+    doc = fitz.open(file)
     unique_color = checkColor(doc)
     color_definitions = {}
     data_by_color = {}
@@ -48,9 +79,6 @@ def extractHighlightedInfo(request):
         print(str(color_name) + " : ")
         print(data)
 
-    template = loader.get_template("highlight.html")
-    return HttpResponse(template.render({},request))
-
 
 def checkColor(doc):
     unique_colors = []
@@ -60,7 +88,4 @@ def checkColor(doc):
         for annotation in annotations:
                 color = annotation.colors["stroke"]
                 unique_colors.append(color)
-        i = 0
-        i+=1
-        i+=2
     return unique_colors
