@@ -16,7 +16,7 @@ def getData(request):
 
 
 class FileUploadAPIView(APIView):
-    parser_classes = (MultiPartParser, FormParser,FileUploadParser)
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = FileUploadedSerializer
 
     def post(self,request,*arg, **kwargs):
@@ -33,5 +33,3 @@ class FileUploadAPIView(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-        # template = loader.get_template("openFile.html")
-        # return HttpResponse( template.render({}, request))

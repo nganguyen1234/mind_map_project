@@ -13,13 +13,6 @@ from rest_framework.views import APIView
 # from .templates
 # Create your views here.
 
-def submitFile(request):
-    template = loader.get_template("submitFile.html")
-    return HttpResponse(template.render({},request))
-def getFileTest():
-    i = 0
-
-
 class FileUploadView(APIView):
     parser_classes = [FileUploadParser]
     def put(self,request,format=None):

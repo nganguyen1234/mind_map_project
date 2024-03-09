@@ -6,5 +6,4 @@ urlpatterns = [
     path('',views.getData),
     path('upload-file/',views.FileUploadAPIView.as_view())
 
-
 ]
