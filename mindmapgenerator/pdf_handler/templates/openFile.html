@@ -69,6 +69,7 @@
            csrfToken: "sdlPVmZqBSQiKaof2ZaQbvdQBScHktRK4FJNXbQw1xUAx0sIXV8SquvBKzPNhlAq"
          };
        </script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <script src="/static/rest_framework/js/jquery-3.5.1.min.js"></script>
        <script src="/static/rest_framework/js/ajax-form.js"></script>
        <script src="/static/rest_framework/js/csrf.js"></script>
@@ -118,13 +119,42 @@
                 .style.display == "block") 
             hideMenu(); 
         else{ 
-            var menu = document.getElementById("contextMenu") 
-  
+            var menu = document.getElementById("contextMenu")  
             menu.style.display = 'block'; 
             menu.style.left = e.pageX + "px"; 
             menu.style.top = e.pageY + "px"; 
         } 
     } 
+
+    //text select and extract
+    function handleHighlightSelection() {
+    var selection = document.getSelection();
+    var range = selection.getRangeAt(0);
+    var rects = range.getClientRects(); // Get the coordinates of the selected text
+
+    // Send the coordinates to the server via AJAX
+    var data = {
+        rects: rects,
+        pdf_file: "example.pdf", // Provide the path to the PDF file
+        page_number: 1 // Provide the page number of the PDF where the selection was made
+        // You can also send additional information such as user ID, etc.
+  
+   //      jQuery.ajax({
+   //      type: "POST",
+   //      url: "/extract_text_from_region",
+   //      data: JSON.stringify(data),
+   //      contentType: "application/json",
+   //      success: function(response) {
+   //          // Handle the response from the server
+   //          console.log(response);
+   //      }
+   //  });
+      };
+      console.log(data)
+   }
+   // Example using jQuery to attach event listener
+   document.addEventListener("mouseup", handleHighlightSelection);
+
       </script>
    </body>
 </html>
